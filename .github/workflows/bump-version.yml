@@ -1,71 +1,21 @@
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
-on:
-  workflow_dispatch:
-    # Inputs the workflow accepts.
-    inputs:
-      version:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'Semver type of new version (major / minor / patch)'
-        # Input has to be provided for the workflow to run
-        required: true
-        type: choice
-        options: 
-        - patch
-        - minor
-        - major
-# This is a basic workflow that is manually triggered
-
 name: Bump version
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+on:
+  push:
+    branches:
+      - master
 jobs:
-  # This workflow contains a single job called "bump-version"
-  bump-version:
-    # The type of runner that the job will run on
+  build:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Check out the content (source branch).  Use a deploy key so that
-    # when we push changes, it will trigger the release workflow
-    # run that runs on: tag. (Using the GitHub token would
-    # not run the workflow to prevent infinite recursion.)
-    - name: Check out source
-      uses: actions/checkout@v2
-      with:
-        ssh-key: ${{ secrets.DEPLOY_KEY }}
-    
-    - name: bump version
-      uses: undergroundwires/bump-everywhere@master
-      with:
-        # Repository name with owner to bump & release. For example, undergroundwires/bump-everywhere
-        # (Optional) Default: ${{ github.repository  }}
-        repository: ''
-
-        # Name of the user who will do the bump commit
-        # (Optional) Default: ${{ github.actor }}
-        user: ''
-
-        # Commit message that will be used in the bump commit
-        # (Optional) Default: ⬆️ bump everywhere to {{version}}
-        commit-message: ''
-
-        # Personal access token (PAT) used to clone & push to the repository.
-        # If you use default, it'll not trigger other actions, but your own PAT then it triggers new actions
-        # (Optional) Default: ${{ github.token }}
-        git-token: ''
-
-        # The type of the GitHub release
-        # Options: 'release' | 'prerelease' | 'draft' | 'none' (does not release)
-        # (Optional) Default: 'release'
-        release-type: ''
-
-        # Personal access token (PAT) used to release to GitHub.
-        # Used only if release-type is not "none"
-        # If you use default, it'll not trigger other actions, but your own PAT then it triggers new actions
-        # (Optional) Default: ${{ github.token }}
-        release-token: ''
-
-    - name: Push latest version
-      run: git push origin main --follow-tags
+      - uses: actions/checkout@v2
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
