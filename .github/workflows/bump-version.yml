@@ -38,34 +38,34 @@ jobs:
     
     - name: bump version
     - uses: undergroundwires/bump-everywhere@master
-        with:
-          # Repository name with owner to bump & release. For example, undergroundwires/bump-everywhere
-          # (Optional) Default: ${{ github.repository  }}
-          repository: ''
+      with:
+        # Repository name with owner to bump & release. For example, undergroundwires/bump-everywhere
+        # (Optional) Default: ${{ github.repository  }}
+        repository: ''
 
-          # Name of the user who will do the bump commit
-          # (Optional) Default: ${{ github.actor }}
-          user: ''
+        # Name of the user who will do the bump commit
+        # (Optional) Default: ${{ github.actor }}
+        user: ''
 
-          # Commit message that will be used in the bump commit
-          # (Optional) Default: ⬆️ bump everywhere to {{version}}
-          commit-message: ''
+        # Commit message that will be used in the bump commit
+        # (Optional) Default: ⬆️ bump everywhere to {{version}}
+        commit-message: ''
 
-          # Personal access token (PAT) used to clone & push to the repository.
-          # If you use default, it'll not trigger other actions, but your own PAT then it triggers new actions
-          # (Optional) Default: ${{ github.token }}
-          git-token: ''
+        # Personal access token (PAT) used to clone & push to the repository.
+        # If you use default, it'll not trigger other actions, but your own PAT then it triggers new actions
+        # (Optional) Default: ${{ github.token }}
+        git-token: ''
 
-          # The type of the GitHub release
-          # Options: 'release' | 'prerelease' | 'draft' | 'none' (does not release)
-          # (Optional) Default: 'release'
-          release-type: ''
+        # The type of the GitHub release
+        # Options: 'release' | 'prerelease' | 'draft' | 'none' (does not release)
+        # (Optional) Default: 'release'
+        release-type: ''
 
-          # Personal access token (PAT) used to release to GitHub.
-          # Used only if release-type is not "none"
-          # If you use default, it'll not trigger other actions, but your own PAT then it triggers new actions
-          # (Optional) Default: ${{ github.token }}
-          release-token: ''
+        # Personal access token (PAT) used to release to GitHub.
+        # Used only if release-type is not "none"
+        # If you use default, it'll not trigger other actions, but your own PAT then it triggers new actions
+        # (Optional) Default: ${{ github.token }}
+        release-token: ''
 
     - name: Push latest version
       run: git push origin main --follow-tags
