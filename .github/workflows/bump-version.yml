@@ -37,7 +37,7 @@ jobs:
         ssh-key: ${{ secrets.DEPLOY_KEY }}
     
     - name: bump version
-    - uses: undergroundwires/bump-everywhere@master
+      uses: undergroundwires/bump-everywhere@master
       with:
         # Repository name with owner to bump & release. For example, undergroundwires/bump-everywhere
         # (Optional) Default: ${{ github.repository  }}
