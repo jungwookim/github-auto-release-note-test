@@ -1,0 +1,14 @@
+name: "[DEV] ECS 글로벌 배포 - farmmorning-global"
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  try_test:
+    if: ${{ github.event.label.name == 'test' }}
+    name: test
+    steps:
+      - name: Test
+        run: |
+          echo ${{ github.event.label.name }}
