@@ -1,4 +1,4 @@
-name: "[DEV] ECS 글로벌 배포 - farmmorning-global"
+name: "테스트용"
 on:
   push:
     branches:
