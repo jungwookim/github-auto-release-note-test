@@ -6,6 +6,7 @@ on:
 
 jobs:
   try_test:
+    runs-on: ubuntu-20.04
     name: test
     steps:
       - name: Test
