@@ -6,7 +6,6 @@ on:
 
 jobs:
   try_test:
-    if: ${{ github.event.label.name == 'test' }}
     name: test
     steps:
       - name: Test
